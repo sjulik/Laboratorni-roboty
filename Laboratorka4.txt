@@ -1,0 +1,44 @@
+# Laboratorni-roboty
+1)
+WITH TotalDueMax
+AS
+(
+    SELECT TotalDue
+    FROM SalesLT.SalesOrderHeader
+)
+SELECT max(TotalDue)
+FROM TotalDueMax
+
+
+2)
+DECLARE @TotalDue int;
+SET @TotalDue=;
+SELECT max(TotalDue)
+FROM SalesLT.SalesOrderHeader
+
+3)
+  WITH TotalDueMax
+   AS
+   (SELECT MONTH(h.DueDate),sum(h.TotalDue)
+   FROM SalesLT.SalesOrderHeader 
+   UNION ALL
+   SELECT a.City,MONTH(h.DueDate),sum(h.TotalDue)
+   FROM SalesLT.SalesOrderHeader AS a inner join SalesLT.Address AS b
+   ON (a.BillToAddressID = b.AddressID)
+   )
+   SELECT max(TotalDue)
+   FROM SalesLT.SalesOrderHeader
+   WHERE YEAR(h.DueDate=2012)
+   
+
+4)
+CREATE PROCEDURE TotalDue_Procedure
+@DATE_BEG DATETIME , @DATE_END DATETIME
+AS 
+BEGIN
+SELECT ShipMethod,PurchaseOrderNumber,DueDate,TotalDue
+   FROM SalesLT.SalesOrderHeader
+   WHERE TotalDue IN (SELECT max(TotalDue)
+                      FROM SalesLT.SalesOrderHeader)
+   GROUP BY ShipMethod,PurchaseOrderNumber,DueDate,TotalDue
+END
