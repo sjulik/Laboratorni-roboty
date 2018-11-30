@@ -1,0 +1,45 @@
+# Laboratorni-roboty
+1)
+CREATE TABLE SalesLT.SalesProductTMP_11 (
+
+    ProductID int IDENTITY(1,1) NOT NULL,
+
+    Name nvarchar(255) NOT NULL,
+
+    ProductNumber nvarchar(25) NOT NULL,
+
+    Color nvarchar(15) NULL,
+
+    StandardCost money NOT NULL,
+
+    ListPrice money NOT NULL,
+
+    Size nvarchar(5) NULL,
+
+    Weight decimal(8, 2) NULL,
+
+    ProductCategoryID int NULL
+
+)
+
+2)
+INSERT INTO SalesLT.SalesProductTMP_11
+SELECT *
+FROM SalesLT.Product
+
+3)
+CREATE TABLE SalesLT.ColorTMP_11  (
+
+    ColorID int IDENTITY(1,1) NOT NULL,
+
+    NameColor nvarchar(25) NOT NULL,
+
+)
+
+4)
+INSERT INTO SalesLT.ColorTMP_11 (NameColor)
+VALUES('Black'),('Silver'),('Multi'),('Red'),('Yellow'),('Blue'),('White')
+
+
+5)
+ALTER TABLE SalesLT.SalesProductTMP_11 ADD ColorID int
