@@ -17,18 +17,16 @@ SELECT max(TotalDue)
 FROM SalesLT.SalesOrderHeader
 
 3)
-  WITH TotalDueMax
-   AS
-   (SELECT MONTH(h.DueDate),sum(h.TotalDue)
-   FROM SalesLT.SalesOrderHeader 
-   UNION ALL
-   SELECT a.City,MONTH(h.DueDate),sum(h.TotalDue)
-   FROM SalesLT.SalesOrderHeader AS a inner join SalesLT.Address AS b
-   ON (a.BillToAddressID = b.AddressID)
-   )
-   SELECT max(TotalDue)
-   FROM SalesLT.SalesOrderHeader
-   WHERE YEAR(h.DueDate=2012)
+  WITH DateSeries(d,b)
+AS (
+SELECT CAST('2018-01-01' AS DATE), CAST('2018-01-31' AS DATE)
+UNION ALL
+SELECT DATEADD(mm, 1, d), EOMONTH(DATEADD(mm, 1, b))
+FROM DateSeries
+WHERE d<DATEADD(mm, -1, DATEADD(yy, 1, CAST('2018-01-01' AS DATE)))
+)
+SELECT * FROM DateSeries
+
    
 
 4)
